@@ -21,7 +21,7 @@ class AutomataFinito:
 
     
     def imprimir_tabla_transiciones(self):
-        print("Tabla de Transiciones:")
+        print("\nTabla de Transiciones:")
         for estado_actual, transiciones in self.tabla_transiciones.items():
             for simbolo, estado_siguiente in transiciones.items():
                 print(f"{estado_actual} --({simbolo})--> {estado_siguiente}")
@@ -43,23 +43,35 @@ class AutomataFinito:
     def validar_cadena(self, cadena):
         estado_actual = self.estado_inicial
         estados_recorridos = [estado_actual]
-        
-        while cadena:
-            transicion_valida = False
 
-            for simbolo, estado_siguiente in self.tabla_transiciones.get(estado_actual, {}).items():
-                if cadena.startswith(simbolo):
-                    estado_actual = estado_siguiente
+        # Crear un diccionario para almacenar las cadenas divididas según el tamaño del símbolo
+        cadenas_divididas = {}
+
+        # Inicializamos una variable para mantener un seguimiento de la posición en la cadena.
+        posicion = 0
+
+        # Iteramos a través de los estados y tamaños de símbolos para dividir la cadena
+        for estado, tamaño in zip(self.estados, self.calcular_tamano_simbolo()):
+            # Dividir la cadena en partes del tamaño correcto
+            cadenas_divididas[estado] = cadena[posicion:posicion + tamaño]
+            posicion += tamaño
+
+        for estado, subcadena in cadenas_divididas.items():
+            if estado in self.alfabeto:
+                if estado_actual in self.tabla_transiciones and subcadena in self.tabla_transiciones[estado_actual]:
+                    # La subcadena es válida y hay una transición válida desde el estado actual
+                    # al estado siguiente con la subcadena dada.
+                    estado_actual = self.tabla_transiciones[estado_actual][subcadena]
                     estados_recorridos.append(estado_actual)
-                    cadena = cadena[len(simbolo):]
-                    transicion_valida = True
-                    break
-
-            if not transicion_valida:
-                print(f"La cadena es inválida en el estado {estado_actual}.")
+                else:
+                    print(f"La cadena es inválida en el estado {estado_actual} con la subcadena '{subcadena}'.")
+                    return False, estados_recorridos
+            else:
+                print(f"La cadena contiene símbolos no válidos.")
                 return False, estados_recorridos
 
         if estado_actual in self.estados_aceptacion:
+            # Verifica si el estado final es un estado de aceptación.
             print(f"La cadena es válida.")
             return True, estados_recorridos
         else:
@@ -88,10 +100,10 @@ estados_aceptacion = input("Estados de aceptación (separados por espacios): ").
 automata.estados_aceptacion = set(estados_aceptacion)
 
 # Pedir al usuario que defina las transiciones
-num_transiciones = int(input("Número de transiciones: ")) + 1
+num_transiciones = int(input("Número de transiciones: "))
 
 for i in range(num_transiciones):
-    estado_actual = input(f"Transición {i + 1} - Estado actual: ")
+    estado_actual = input(f"\nTransición {i + 1} - Estado actual: ")
     
     while True:
         # Solicita al usuario el símbolo de entrada
@@ -117,18 +129,18 @@ automata.imprimir_tabla_transiciones()
 tamaños = automata.calcular_tamano_simbolo()
 
 # Imprimir la lista de tamaños de símbolos
-print("Tamaños de símbolos:", tamaños)
+print("\nTamaños de símbolos:", tamaños)
 
 # Validar la cadena y mostrar los estados recorridos
 while True:
-    cadena = input("Ingrese una cadena o escriba 'salir' o 'exit' para finalizar: ")
+    cadena = input("\nIngrese una cadena o escriba 'salir' o 'exit' para finalizar: ")
     if cadena.lower() == 'salir' or cadena.lower() == 'exit':
         break
 
     # Validar la cadena y mostrar los recorridos
     resultado, estados_recorridos = automata.validar_cadena(cadena)
     if resultado:
-        print("Estados recorridos:", " -> ".join(estados_recorridos))
+        print("Estados recorridos:", " -> ".join(estados_recorridos),"\n")
     
     else:
-        print("La cadena no es valida.")
+        print("Estados recorridos:", " -> ".join(estados_recorridos),"\n")
