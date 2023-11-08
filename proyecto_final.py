@@ -52,7 +52,8 @@ for i in range(num_estados):
     automata.estados.add(estado)
 
 # Pedir al usuario que defina el alfabeto
-alfabeto = input("Alfabeto: ")
+alfabeto_input = input("Alfabeto (sin separadores): ")
+alfabeto = [char for char in alfabeto_input if not char.isspace()]
 automata.alfabeto = set(alfabeto)
 
 # Pedir al usuario que defina el estado inicial
@@ -63,7 +64,7 @@ estados_aceptacion = input("Estados de aceptación (separados por espacios): ").
 automata.estados_aceptacion = set(estados_aceptacion)
 
 # Pedir al usuario que defina las transiciones
-num_transiciones = int(input("Número de transiciones: " + 1))
+num_transiciones = int(input("Número de transiciones: ")) + 1
 for i in range(num_transiciones):
     estado_actual = input(f"Transición {i + 1} - Estado actual: ")
     simbolo_entrada = input(f"Transición {i + 1} - Símbolo de entrada: ")
@@ -72,14 +73,13 @@ for i in range(num_transiciones):
 
 # Validar la cadena y mostrar los estados recorridos
 while True:
-    cadena = input("Ingrese una cadena o escribe 'salir' para finalizar: ")
-    if cadena.lower == 'salir':
+    cadena = input("Ingrese una cadena o escribe 'salir/exit' para finalizar: ")
+    if cadena.lower() == 'salir' or 'exit':
         break
 
     # Validar la cadena y mostrar los recorridos
     resultado, estados_recorridos = automata.validar_cadena(cadena)
     if resultado:
-        print("La cadena es valida. ")
         print("Estados recorridos:", " -> ".join(estados_recorridos))
     
     else:
