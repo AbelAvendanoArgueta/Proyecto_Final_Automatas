@@ -14,30 +14,49 @@ class AutomataFinito:
         if estado_actual in self.estados and estado_siguiente in self.estados:
             if estado_actual not in self.tabla_transiciones:
                 self.tabla_transiciones[estado_actual] = {}
-            
-            # Itera sobre cada carácter en simbolo_entrada y agrega la transición
-            for char in simbolo_entrada:
-                if char in self.alfabeto:
-                    self.tabla_transiciones[estado_actual][char] = estado_siguiente
-                else:
-                    print(f"Error: Símbolo '{char}' en '{simbolo_entrada}' no es válido.")
+            # Utiliza la cadena completa simbolo_entrada como clave para la transición
+            self.tabla_transiciones[estado_actual][simbolo_entrada] = estado_siguiente
         else:
             print("Error: Estado no válido.")
+
+    
+    def imprimir_tabla_transiciones(self):
+        print("Tabla de Transiciones:")
+        for estado_actual, transiciones in self.tabla_transiciones.items():
+            for simbolo, estado_siguiente in transiciones.items():
+                print(f"{estado_actual} --({simbolo})--> {estado_siguiente}")
+
+    def calcular_tamano_simbolo(self):
+        tamaño_simbolo = []  # Inicializa la lista vacía
+        
+        for i in range(1, len(self.estados) + 1):
+            estado = str(i)
+            tamaño_estado = 0  # Inicializa el tamaño del estado actual
+            if estado in self.tabla_transiciones:
+                transiciones = self.tabla_transiciones[estado]
+                for simbolo_entrada, estado_siguiente in transiciones.items():
+                    tamaño_estado += len(simbolo_entrada)  # Suma el tamaño de cada símbolo
+            tamaño_simbolo.append(tamaño_estado)
+        
+        return tamaño_simbolo
 
     def validar_cadena(self, cadena):
         estado_actual = self.estado_inicial
         estados_recorridos = [estado_actual]
+        
+        while cadena:
+            transicion_valida = False
 
-        for simbolo in cadena:
-            if simbolo in self.alfabeto:
-                if estado_actual in self.tabla_transiciones and simbolo in self.tabla_transiciones[estado_actual]:
-                    estado_actual = self.tabla_transiciones[estado_actual][simbolo]
+            for simbolo, estado_siguiente in self.tabla_transiciones.get(estado_actual, {}).items():
+                if cadena.startswith(simbolo):
+                    estado_actual = estado_siguiente
                     estados_recorridos.append(estado_actual)
-                else:
-                    print(f"La cadena es inválida en el estado {estado_actual} con el símbolo '{simbolo}'.")
-                    return False, estados_recorridos
-            else:
-                print(f"La cadena contiene símbolos no válidos.")
+                    cadena = cadena[len(simbolo):]
+                    transicion_valida = True
+                    break
+
+            if not transicion_valida:
+                print(f"La cadena es inválida en el estado {estado_actual}.")
                 return False, estados_recorridos
 
         if estado_actual in self.estados_aceptacion:
@@ -46,7 +65,6 @@ class AutomataFinito:
         else:
             print(f"La cadena es inválida en el estado final {estado_actual}.")
             return False, estados_recorridos
-
 
 # Crear una instancia del autómata
 automata = AutomataFinito()
@@ -91,6 +109,15 @@ for i in range(num_transiciones):
     
     # Agrega la transición al autómata
     automata.agregar_transicion(estado_actual, simbolo_entrada, estado_siguiente)
+
+# Después de agregar todas las transiciones se imprime tabla de trancisiones
+automata.imprimir_tabla_transiciones()
+
+# Llamar a la función para calcular los tamaños de los símbolos
+tamaños = automata.calcular_tamano_simbolo()
+
+# Imprimir la lista de tamaños de símbolos
+print("Tamaños de símbolos:", tamaños)
 
 # Validar la cadena y mostrar los estados recorridos
 while True:
