@@ -11,12 +11,18 @@ class AutomataFinito:
 
     def agregar_transicion(self, estado_actual, simbolo_entrada, estado_siguiente):
         # Añade una transición a la tabla de transiciones
-        if estado_actual in self.estados and simbolo_entrada in self.alfabeto and estado_siguiente in self.estados:
+        if estado_actual in self.estados and estado_siguiente in self.estados:
             if estado_actual not in self.tabla_transiciones:
                 self.tabla_transiciones[estado_actual] = {}
-            self.tabla_transiciones[estado_actual][simbolo_entrada] = estado_siguiente
+            
+            # Itera sobre cada carácter en simbolo_entrada y agrega la transición
+            for char in simbolo_entrada:
+                if char in self.alfabeto:
+                    self.tabla_transiciones[estado_actual][char] = estado_siguiente
+                else:
+                    print(f"Error: Símbolo '{char}' en '{simbolo_entrada}' no es válido.")
         else:
-            print("Error: Estado o símbolo no válido.")
+            print("Error: Estado no válido.")
 
     def validar_cadena(self, cadena):
         estado_actual = self.estado_inicial
@@ -65,16 +71,31 @@ automata.estados_aceptacion = set(estados_aceptacion)
 
 # Pedir al usuario que defina las transiciones
 num_transiciones = int(input("Número de transiciones: ")) + 1
+
 for i in range(num_transiciones):
     estado_actual = input(f"Transición {i + 1} - Estado actual: ")
-    simbolo_entrada = input(f"Transición {i + 1} - Símbolo de entrada: ")
+    
+    while True:
+        # Solicita al usuario el símbolo de entrada
+        simbolo_entrada = input(f"Transición {i + 1} - Símbolo de entrada: ")
+        
+        # Verifica si todos los caracteres de la cadena están en el alfabeto
+        if all(char in alfabeto for char in simbolo_entrada):
+            # Si todos los caracteres son válidos, sal del bucle
+            break
+        else:
+            # Si algunos caracteres no son válidos, muestra un mensaje de error
+            print("Símbolo de entrada no válido. Los símbolos deben estar en el alfabeto: " + alfabeto)
+    
     estado_siguiente = input(f"Transición {i + 1} - Estado siguiente: ")
+    
+    # Agrega la transición al autómata
     automata.agregar_transicion(estado_actual, simbolo_entrada, estado_siguiente)
 
 # Validar la cadena y mostrar los estados recorridos
 while True:
-    cadena = input("Ingrese una cadena o escribe 'salir/exit' para finalizar: ")
-    if cadena.lower() == 'salir' or 'exit':
+    cadena = input("Ingrese una cadena o escriba 'salir' o 'exit' para finalizar: ")
+    if cadena.lower() == 'salir' or cadena.lower() == 'exit':
         break
 
     # Validar la cadena y mostrar los recorridos
