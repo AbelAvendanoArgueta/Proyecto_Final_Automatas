@@ -64,76 +64,76 @@ class AutomataFinito:
         print(f"La cadena es inválida en el estado {estado_actual} con la subcadena '{cadena[posicion:]}'.")
         return False, [estado_actual]
 
-def definir_automata():
-    # Crear una instancia del autómata
-    automata = AutomataFinito()
+    def definir_automata():
+        # Crear una instancia del autómata
+        automata = AutomataFinito()
 
-    # Pedir al usuario que defina los estados
-    num_estados = int(input("Número de estados: "))
-    for i in range(num_estados):
-        estado = input(f"Estado {i + 1}: ")
-        automata.estados.add(estado)
+        # Pedir al usuario que defina los estados
+        num_estados = int(input("Número de estados: "))
+        for i in range(num_estados):
+            estado = input(f"Estado {i + 1}: ")
+            automata.estados.add(estado)
 
-    # Pedir al usuario que defina el alfabeto
-    alfabeto_input = input("Alfabeto (sin separadores): ")
-    alfabeto = [char for char in alfabeto_input if not char.isspace()]
-    automata.alfabeto = set(alfabeto)
+        # Pedir al usuario que defina el alfabeto
+        alfabeto_input = input("Alfabeto (sin separadores): ")
+        alfabeto = [char for char in alfabeto_input if not char.isspace()]
+        automata.alfabeto = set(alfabeto)
 
-    # Pedir al usuario que defina el estado inicial
-    automata.estado_inicial = input("Estado inicial: ")
+        # Pedir al usuario que defina el estado inicial
+        automata.estado_inicial = input("Estado inicial: ")
 
-    # Pedir al usuario que defina los estados de aceptación o estado final
-    estados_aceptacion = input("Estados de aceptación (separados por espacios): ").split()
-    automata.estados_aceptacion = set(estados_aceptacion)
+        # Pedir al usuario que defina los estados de aceptación o estado final
+        estados_aceptacion = input("Estados de aceptación (separados por espacios): ").split()
+        automata.estados_aceptacion = set(estados_aceptacion)
 
-    # Pedir al usuario que defina las transiciones
-    num_transiciones = int(input("Número de transiciones: "))
+        # Pedir al usuario que defina las transiciones
+        num_transiciones = int(input("Número de transiciones: "))
 
-    for i in range(num_transiciones):
-        estado_actual = input(f"\nTransición {i + 1} - Estado actual: ")
+        for i in range(num_transiciones):
+            estado_actual = input(f"\nTransición {i + 1} - Estado actual: ")
 
+            while True:
+                # Solicita al usuario el símbolo de entrada
+                simbolo_entrada = input(f"Transición {i + 1} - Símbolo de entrada: ")
+
+                # Verifica si todos los caracteres de la cadena están en el alfabeto
+                if all(char in alfabeto for char in simbolo_entrada):
+                    # Si todos los caracteres son válidos, sal del bucle
+                    break
+                else:
+                    # Si algunos caracteres no son válidos, muestra un mensaje de error
+                    print("Símbolo de entrada no válido. Los símbolos deben estar en el alfabeto: " + alfabeto)
+
+            estado_siguiente = input(f"Transición {i + 1} - Estado siguiente: ")
+
+            # Agrega la transición al autómata
+            automata.agregar_transicion(estado_actual, simbolo_entrada, estado_siguiente)
+
+        # Después de agregar todas las transiciones se imprime la tabla de transiciones
+        automata.imprimir_tabla_transiciones()
+
+        # Llamar a la función para calcular los tamaños de los símbolos
+        tamaños = automata.calcular_tamano_simbolo()
+
+        # Imprimir la lista de tamaños de símbolos
+        print("\nTamaños de símbolos:", tamaños)
+
+        # Validar la cadena y mostrar los estados recorridos
         while True:
-            # Solicita al usuario el símbolo de entrada
-            simbolo_entrada = input(f"Transición {i + 1} - Símbolo de entrada: ")
+            cadena = input("\nIngrese una cadena o escriba 'salir' o 'exit' para finalizar: ")
+            if cadena.lower() == 'salir' or cadena.lower() == 'exit':
+                return True  # Indica que el usuario quiere salir del programa
 
-            # Verifica si todos los caracteres de la cadena están en el alfabeto
-            if all(char in alfabeto for char in simbolo_entrada):
-                # Si todos los caracteres son válidos, sal del bucle
-                break
+            # Validar la cadena y mostrar los recorridos
+            resultado, estados_recorridos = automata.validar_cadena(cadena, automata.estado_inicial, 0)
+
+            if resultado:
+                print("Estados recorridos:", " -> ".join(estados_recorridos), "\n")
             else:
-                # Si algunos caracteres no son válidos, muestra un mensaje de error
-                print("Símbolo de entrada no válido. Los símbolos deben estar en el alfabeto: " + alfabeto)
+                print("Estados recorridos:", " -> ".join(estados_recorridos), "\n")
 
-        estado_siguiente = input(f"Transición {i + 1} - Estado siguiente: ")
+        return False  # Si llega aquí, significa que el usuario no ha solicitado salir
 
-        # Agrega la transición al autómata
-        automata.agregar_transicion(estado_actual, simbolo_entrada, estado_siguiente)
-
-    # Después de agregar todas las transiciones se imprime la tabla de transiciones
-    automata.imprimir_tabla_transiciones()
-
-    # Llamar a la función para calcular los tamaños de los símbolos
-    tamaños = automata.calcular_tamano_simbolo()
-
-    # Imprimir la lista de tamaños de símbolos
-    print("\nTamaños de símbolos:", tamaños)
-
-    # Validar la cadena y mostrar los estados recorridos
-    while True:
-        cadena = input("\nIngrese una cadena o escriba 'salir' o 'exit' para finalizar: ")
-        if cadena.lower() == 'salir' or cadena.lower() == 'exit':
-            return True  # Indica que el usuario quiere salir del programa
-
-        # Validar la cadena y mostrar los recorridos
-        resultado, estados_recorridos = automata.validar_cadena(cadena, automata.estado_inicial, 0)
-
-        if resultado:
-            print("Estados recorridos:", " -> ".join(estados_recorridos), "\n")
-        else:
-            print("Estados recorridos:", " -> ".join(estados_recorridos), "\n")
-
-    return False  # Si llega aquí, significa que el usuario no ha solicitado salir
-
-# Llamada a la función principal de interacción con el usuario
-if definir_automata():
+    # Llamada a la función principal de interacción con el usuario
+if AutomataFinito.definir_automata():
     print("Programa cerrado por solicitud del usuario.")

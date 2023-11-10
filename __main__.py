@@ -1,3 +1,5 @@
-from src.modules.finite_automata import *
+# __main__.py
+from src.modules.main_menu import imprimir_menu
 
-definir_automata()
+if __name__ == "__main__":
+    imprimir_menu()
