@@ -133,7 +133,3 @@ class AutomataFinito:
                 print("Estados recorridos:", " -> ".join(estados_recorridos), "\n")
 
         return False  # Si llega aquí, significa que el usuario no ha solicitado salir
-
-    # Llamada a la función principal de interacción con el usuario
-if AutomataFinito.definir_automata():
-    print("Programa cerrado por solicitud del usuario.")
