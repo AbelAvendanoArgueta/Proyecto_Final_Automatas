@@ -1,5 +1,7 @@
 import os
 from src.modules.finite_automata import AutomataFinito
+# Crear una instancia del autómata
+automata = AutomataFinito()
 
 ascii_art = """
  █████╗ ██╗   ██╗████████╗ ██████╗ ███╗   ███╗ █████╗ ████████╗ █████╗     ███████╗██╗███╗   ██╗██╗████████╗ ██████╗ 
@@ -52,9 +54,10 @@ def imprimir_menu():
 def manejar_opcion(opcion):
     print(f"Ha seleccionado la opción {opcion}.")
     if opcion == "1":
-        AutomataFinito.definir_automata()
+        automata.definir_automata()
         # Aquí puedes agregar más lógica si es necesario después de definir el autómata
     elif opcion == "2":
+        automata.ejecutar_afn()
         # Lógica para la opción 2
         pass
     elif opcion == "3":

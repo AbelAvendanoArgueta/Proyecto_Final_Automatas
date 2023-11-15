@@ -64,27 +64,24 @@ class AutomataFinito:
         print(f"La cadena es inválida en el estado {estado_actual} con la subcadena '{cadena[posicion:]}'.")
         return False, [estado_actual]
 
-    def definir_automata():
-        # Crear una instancia del autómata
-        automata = AutomataFinito()
-
+    def definir_automata(self):
         # Pedir al usuario que defina los estados
         num_estados = int(input("\nNúmero de estados: "))
         for i in range(num_estados):
             estado = input(f"Estado {i + 1}: ")
-            automata.estados.add(estado)
+            self.estados.add(estado)
 
         # Pedir al usuario que defina el alfabeto
         alfabeto_input = input("Alfabeto (sin separadores): ")
         alfabeto = [char for char in alfabeto_input if not char.isspace()]
-        automata.alfabeto = set(alfabeto)
+        self.alfabeto = set(alfabeto)
 
         # Pedir al usuario que defina el estado inicial
-        automata.estado_inicial = input("Estado inicial: ")
+        self.estado_inicial = input("Estado inicial: ")
 
         # Pedir al usuario que defina los estados de aceptación o estado final
         estados_aceptacion = input("Estados de aceptación (separados por espacios): ").split()
-        automata.estados_aceptacion = set(estados_aceptacion)
+        self.estados_aceptacion = set(estados_aceptacion)
 
         # Pedir al usuario que defina las transiciones
         num_transiciones = int(input("Número de transiciones: "))
@@ -107,13 +104,13 @@ class AutomataFinito:
             estado_siguiente = input(f"Transición {i + 1} - Estado siguiente: ")
 
             # Agrega la transición al autómata
-            automata.agregar_transicion(estado_actual, simbolo_entrada, estado_siguiente)
+            self.agregar_transicion(estado_actual, simbolo_entrada, estado_siguiente)
 
         # Después de agregar todas las transiciones se imprime la tabla de transiciones
-        automata.imprimir_tabla_transiciones()
+        self.imprimir_tabla_transiciones()
 
         # Llamar a la función para calcular los tamaños de los símbolos
-        tamaños = automata.calcular_tamano_simbolo()
+        tamaños = self.calcular_tamano_simbolo()
 
         # Imprimir la lista de tamaños de símbolos
         print("\nTamaños de símbolos:", tamaños)
@@ -125,7 +122,7 @@ class AutomataFinito:
                 return True  # Indica que el usuario quiere salir del programa
 
             # Validar la cadena y mostrar los recorridos
-            resultado, estados_recorridos = automata.validar_cadena(cadena, automata.estado_inicial, 0)
+            resultado, estados_recorridos = self.validar_cadena(cadena, self.estado_inicial, 0)
 
             if resultado:
                 print("Estados recorridos:", " -> ".join(estados_recorridos), "\n")
