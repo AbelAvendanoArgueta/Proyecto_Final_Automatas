@@ -69,7 +69,7 @@ class AutomataFinito:
         automata = AutomataFinito()
 
         # Pedir al usuario que defina los estados
-        num_estados = int(input("Número de estados: "))
+        num_estados = int(input("\nNúmero de estados: "))
         for i in range(num_estados):
             estado = input(f"Estado {i + 1}: ")
             automata.estados.add(estado)
