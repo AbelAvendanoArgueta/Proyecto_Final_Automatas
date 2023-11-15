@@ -115,6 +115,8 @@ class AutomataFinito:
         # Imprimir la lista de tamaños de símbolos
         print("\nTamaños de símbolos:", tamaños)
 
+    def ejecutar_afn(self):
+        self.definir_automata()
         # Validar la cadena y mostrar los estados recorridos
         while True:
             cadena = input("\nIngrese una cadena o escriba 'salir' o 'exit' para finalizar: ")
