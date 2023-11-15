@@ -1,28 +1,21 @@
 import os
 from src.modules.finite_automata import AutomataFinito
-# Crear una instancia del autómata
+# Crear una instancia del afn
 automata = AutomataFinito()
 
-ascii_art = """
- █████╗ ██╗   ██╗████████╗ ██████╗ ███╗   ███╗ █████╗ ████████╗ █████╗     ███████╗██╗███╗   ██╗██╗████████╗ ██████╗ 
-██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝██╔══██╗    ██╔════╝██║████╗  ██║██║╚══██╔══╝██╔═══██╗
-███████║██║   ██║   ██║   ██║   ██║██╔████╔██║███████║   ██║   ███████║    █████╗  ██║██╔██╗ ██║██║   ██║   ██║   ██║
-██╔══██║██║   ██║   ██║   ██║   ██║██║╚██╔╝██║██╔══██║   ██║   ██╔══██║    ██╔══╝  ██║██║╚██╗██║██║   ██║   ██║   ██║
-██║  ██║╚██████╔╝   ██║   ╚██████╔╝██║ ╚═╝ ██║██║  ██║   ██║   ██║  ██║    ██║     ██║██║ ╚████║██║   ██║   ╚██████╔╝
-╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝    ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝    ╚═════╝                                                                                                                                                                                                                                                            
-"""
+ascii_art_1 = " █████╗ ██╗   ██╗████████╗ ██████╗ ███╗   ███╗ █████╗ ████████╗ █████╗     ███████╗██╗███╗   ██╗██╗████████╗ ██████╗ "
+ascii_art_2 = "██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝██╔══██╗    ██╔════╝██║████╗  ██║██║╚══██╔══╝██╔═══██╗"
+ascii_art_3 = "███████║██║   ██║   ██║   ██║   ██║██╔████╔██║███████║   ██║   ███████║    █████╗  ██║██╔██╗ ██║██║   ██║   ██║   ██║"
+ascii_art_4 = "██╔══██║██║   ██║   ██║   ██║   ██║██║╚██╔╝██║██╔══██║   ██║   ██╔══██║    ██╔══╝  ██║██║╚██╗██║██║   ██║   ██║   ██║"
+ascii_art_5 = "██║  ██║╚██████╔╝   ██║   ╚██████╔╝██║ ╚═╝ ██║██║  ██║   ██║   ██║  ██║    ██║     ██║██║ ╚████║██║   ██║   ╚██████╔╝"
+ascii_art_6 = "╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝    ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝    ╚═════╝ "                                                                                                                                                                                                                                                           
 
 def print_header(text):
-    total_columns = 142  # Número total de caracteres, incluyendo espacios en blanco
+    # La función get_terminal_size() devuelve un objeto 
+    # os.terminal_size que contiene el tamaño actual de la terminal.
     terminal_size = os.get_terminal_size().columns
-
-    if terminal_size < total_columns:
-        print("La terminal es demasiado pequeña para centrar el texto correctamente.")
-        return
-
-    padding = (terminal_size - total_columns) // 2
-    header = ' ' * padding + text + ' ' * padding
-    print(header)  # Asegurarse de que no se exceda el tamaño de la terminal
+    header = text.center(terminal_size)
+    print(header)
 
 def imprimir_menu():
     while True:
@@ -32,10 +25,18 @@ def imprimir_menu():
         print_header("Facultad de Ingeniería y Ciencias Aplicadas")
         print_header("Carrera de Ingeniería en Sistemas y Tecnologías de la Información y Comunicación")
         print()
-        print_header("Abel Fernando Avendaño Argueta 000127599")
         print_header("Deneth Javier Gómez Corado 000127597")
+        print_header("Abel Fernando Avendaño Argueta 000127599")
         print_header("Brayan Alexander Ríos y Ríos 000130200")
-        print_header(ascii_art)
+        print_header("Jerson Eduardo Gutiérrez Gamez 000126122")
+        print_header("Giancarlo Josué Contreras Sandoval 000130757")
+        print()
+        print_header(ascii_art_1)
+        print_header(ascii_art_2)
+        print_header(ascii_art_3)
+        print_header(ascii_art_4)
+        print_header(ascii_art_5)
+        print_header(ascii_art_6)
         print("\tSeleccione una opción:")
         print("\t\t 1. Pruebas")
         print("\t\t 2. Guardar Automata")
