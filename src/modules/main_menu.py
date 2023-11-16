@@ -55,7 +55,7 @@ def imprimir_menu():
 def manejar_opcion(opcion):
     print(f"Ha seleccionado la opción {opcion}.")
     if opcion == "1":
-        automata.definir_automata()
+        automata.ejecutar_afn()
         # Aquí puedes agregar más lógica si es necesario después de definir el autómata
     elif opcion == "2":
         automata.ejecutar_afn()

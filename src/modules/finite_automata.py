@@ -106,6 +106,7 @@ class AutomataFinito:
             # Agrega la transición al autómata
             self.agregar_transicion(estado_actual, simbolo_entrada, estado_siguiente)
 
+    def debugging_messages(self):
         # Después de agregar todas las transiciones se imprime la tabla de transiciones
         self.imprimir_tabla_transiciones()
 
@@ -117,6 +118,7 @@ class AutomataFinito:
 
     def ejecutar_afn(self):
         self.definir_automata()
+        self.debugging_messages()
         # Validar la cadena y mostrar los estados recorridos
         while True:
             cadena = input("\nIngrese una cadena o escriba 'salir' o 'exit' para finalizar: ")
