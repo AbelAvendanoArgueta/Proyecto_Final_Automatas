@@ -1,10 +1,26 @@
 import json
+import os
 from src.modules.finite_automata import AutomataFinito
 
 # Crear una instancia de la clase AutomataFinito
 afn_for_saving = AutomataFinito()
 
 def guardar_configuracion(automata, nombre_archivo):
+    # Construir la ruta completa al archivo en la carpeta afn_predefined
+    ruta_completa = os.path.join('src', 'afn_predefined', nombre_archivo)
+
+    # Verificar si el archivo ya existe
+    if os.path.exists(ruta_completa):
+        # Si existe, agregar un número al nombre hasta encontrar un nombre único
+        contador = 1
+        while True:
+            nuevo_nombre = f"{os.path.splitext(nombre_archivo)[0]}_{contador}.txt"
+            nuevo_ruta = os.path.join('src', 'afn_predefined', nuevo_nombre)
+            if not os.path.exists(nuevo_ruta):
+                ruta_completa = nuevo_ruta
+                break
+            contador += 1
+
     configuracion = {
         'estados': list(automata.estados),
         'alfabeto': list(automata.alfabeto),
@@ -13,7 +29,7 @@ def guardar_configuracion(automata, nombre_archivo):
         'tabla_transiciones': automata.tabla_transiciones
     }
 
-    with open(nombre_archivo, 'w') as archivo:
+    with open(ruta_completa, 'w') as archivo:
         json.dump(configuracion, archivo)
 
 def afn_save_init():
@@ -23,4 +39,4 @@ def afn_save_init():
     # Luego se llama a la función guardar_configuracion para guardar la configuración
     guardar_configuracion(afn_for_saving, 'configuracion.txt')
 
-# Ahora puedes llamar afn_save_init() para definir y guardar la configuración del autómata
+# Ahora se puede llamar afn_save_init() para definir y guardar la configuración del autómata

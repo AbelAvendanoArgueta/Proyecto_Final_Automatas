@@ -1,1 +1,7 @@
 __pycache__/
+
+# Ignora todos los archivos configuracion_*.txt
+src/afn_predefined/configuracion_*.txt
+
+# Excepto el archivo configuracion.txt
+!src/afn_predefined/configuracion.txt

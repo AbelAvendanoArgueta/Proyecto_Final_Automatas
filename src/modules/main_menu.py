@@ -40,7 +40,7 @@ def imprimir_menu():
         print_header(ascii_art_4)
         print_header(ascii_art_5)
         print_header(ascii_art_6)
-        print("\tSeleccione una opción:")
+        print("\tSeleccione una opción:\n")
         print("\t\t 1. Pruebas")
         print("\t\t 2. Guardar Automata")
         print("\t\t 3. Cargar Automata")
@@ -56,7 +56,7 @@ def imprimir_menu():
             manejar_opcion(opcion_elegida)
 
 def manejar_opcion(opcion):
-    print(f"Ha seleccionado la opción {opcion}.")
+    print(f"\n\t\tHa seleccionado la opción {opcion}.")
     if opcion == "1":
         automata.ejecutar_afn()
         # Aquí puedes agregar más lógica si es necesario después de definir el autómata
