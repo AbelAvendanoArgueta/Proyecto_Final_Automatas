@@ -1,6 +1,8 @@
 import os
 from src.modules.finite_automata import AutomataFinito
 from src.modules.save_afn import afn_save_init
+from src.modules.load_afn import afn_load_init
+
 # Crear una instancia del afn
 automata = AutomataFinito()
 
@@ -63,6 +65,7 @@ def manejar_opcion(opcion):
         # Lógica para la opción 2
         pass
     elif opcion == "3":
+        afn_load_init()
         # Lógica para la opción 3
         pass
     else:
